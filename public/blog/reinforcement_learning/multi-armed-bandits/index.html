@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><link rel="icon" href="/favicon_main.svg"><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta http-equiv="x-ua-compatible" content="ie=edge" /><meta property="og:url"  content="https://example.com/blog/reinforcement_learning/multi-armed-bandits/" />
+    <meta property="og:type" content="article" /><meta property="og:title" content="Multi-armed bandits" /><meta property="og:description" content="How much can you win?" /><meta property="og:image:width"  content="375" />
+        <meta property="og:image:height" content="250" /><meta property="og:image" content="https://example.com/blog/reinforcement_learning/multi-armed-bandits/summary_huc6c24c875880b0a55069511039ae31ac_30776_600x0_resize_q75_box.jpg" /><title>Personal website and blog - Multi-armed bandits</title>
+
+    
+<link href="https://fonts.googleapis.com/css?family=Open&#43;Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open&#43;Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open&#43;Sans" rel="stylesheet"><link rel="stylesheet" type="text/css" href="/css/style.css">
+<link rel="stylesheet" type="text/css" href="/css/monokai-sublime.9.15.8.min.css">
+<link rel="stylesheet" type="text/css" href="/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/css/refresh.css">
+<link rel="stylesheet" type="text/css" href="/css/devicon.min.css">
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css" integrity="sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB" crossorigin="anonymous">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js" integrity="sha384-0fdwu/T/EQMsQlrHCCHoH10pkPLlKA1jL5dFyUOvB3lfeT2540/2g6YgSi2BL14p" crossorigin="anonymous"></script>
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+  </head>
+  <body>
+     
+
+    <div id="preloader">
+      <div id="status"></div>
+    </div><nav class="navbar is-fresh is-transparent no-shadow" role="navigation" aria-label="main navigation">
+  <div class="container">
+    <div class="navbar-brand">
+
+      
+      
+      
+      <a class="navbar-item">
+        <div class="menu-icon-wrapper left-menu-icon-wrapper" style="visibility: visible;">
+          <svg width="1000px" height="1000px">
+            <path class="path1" d="M 300 400 L 700 400 C 900 400 900 750 600 850 A 400 400 0 0 1 200 200 L 800 800"></path>
+            <path class="path2" d="M 300 500 L 700 500"></path>
+            <path class="path3" d="M 700 600 L 300 600 C 100 600 100 200 400 150 A 400 380 0 1 1 200 800 L 800 200"></path>
+          </svg>
+          <button id="menu-icon-trigger" class="menu-icon-trigger"></button>
+        </div>
+        <div class="navbar-item left-menu-icon-wrapper">
+          Tags
+        </div>
+      </a>
+
+      <div class="navbar-item is-expanded"></div>
+      <a class="navbar-item is-hidden-desktop">  
+        <div data-target="navbar-menu" class="navbar-item right-menu-icon-wrapper is-hidden-desktop">
+          Menu
+        </div>
+        <div data-target="navbar-menu" class="menu-icon-wrapper right-menu-icon-wrapper" style="visibility: visible;">
+          <svg width="1000px" height="1000px">
+            <path class="path1" d="M 300 400 L 700 400 C 900 400 900 750 600 850 A 400 400 0 0 1 200 200 L 800 800"></path>
+            <path class="path2" d="M 300 500 L 700 500"></path>
+            <path class="path3" d="M 700 600 L 300 600 C 100 600 100 200 400 150 A 400 380 0 1 1 200 800 L 800 200"></path>
+          </svg>
+          <button id="menu-icon-trigger" class="menu-icon-trigger"></button>
+        </div>
+      </a>
+    </div><div id="navbar-menu" class="navbar-menu is-static">
+      
+      <div class="navbar-end">
+        <a href="/about/" class="navbar-item is-secondary">About Me</a>
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a href="/blog/" class="navbar-link">Blog</a>
+              <div class="navbar-dropdown">
+                <a href="/blog/reinforcement_learning/" class="navbar-item">Reinforcement Learning</a></div>
+            </div>
+        
+        
+        
+        
+        
+        
+        
+      </div>
+    </div>
+  </div>
+</nav>
+<nav id="navbar-clone" class="navbar is-fresh is-transparent" role="navigation" aria-label="main navigation">
+  <div class="container">
+      <div class="navbar-brand">
+  
+        
+        
+        
+        <a class="navbar-item">
+          <div class="menu-icon-wrapper left-menu-icon-wrapper" style="visibility: visible;">
+            <svg width="1000px" height="1000px">
+              <path class="path1" d="M 300 400 L 700 400 C 900 400 900 750 600 850 A 400 400 0 0 1 200 200 L 800 800"></path>
+              <path class="path2" d="M 300 500 L 700 500"></path>
+              <path class="path3" d="M 700 600 L 300 600 C 100 600 100 200 400 150 A 400 380 0 1 1 200 800 L 800 200"></path>
+            </svg>
+            <button id="menu-icon-trigger" class="menu-icon-trigger"></button>
+          </div>
+          <div class="navbar-item left-menu-icon-wrapper">
+            Tags
+          </div>
+        </a>
+  
+        <div class="navbar-item is-expanded"></div>
+        <a class="navbar-item is-hidden-desktop">  
+          <div data-target="cloned-navbar-menu" class="navbar-item right-menu-icon-wrapper is-hidden-desktop">
+            Menu
+          </div>
+          <div data-target="cloned-navbar-menu" class="menu-icon-wrapper right-menu-icon-wrapper" style="visibility: visible;">
+            <svg width="1000px" height="1000px">
+              <path class="path1" d="M 300 400 L 700 400 C 900 400 900 750 600 850 A 400 400 0 0 1 200 200 L 800 800"></path>
+              <path class="path2" d="M 300 500 L 700 500"></path>
+              <path class="path3" d="M 700 600 L 300 600 C 100 600 100 200 400 150 A 400 380 0 1 1 200 800 L 800 200"></path>
+            </svg>
+            <button id="menu-icon-trigger" class="menu-icon-trigger"></button>
+          </div>
+        </a>
+      </div><div id="cloned-navbar-menu" class="navbar-menu is-static">
+        <div class="navbar-end"><a href="/about/" class="navbar-item is-secondary">About Me</a><div class="navbar-item has-dropdown is-hoverable">
+                <a href="/blog/" class="navbar-link">Blog</a>
+                <div class="navbar-dropdown">
+                  <a href="/blog/reinforcement_learning/" class="navbar-item">Reinforcement Learning</a></div>
+              </div>
+          
+          
+          
+
+          
+          
+          
+        
+        </div>
+      </div>
+    </div>
+  </nav>
+<section class="section is-medium">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-centered-tablet-portrait">
+        <h1 class="title is-2 section-title">Multi-armed bandits</h1>
+        <h5 class="subtitle is-5 is-muted"></h5>
+        <div class="divider"></div>
+        
+        <section class="section content has-text-justified">
+          <h1 id="reinforcement-learning-multi-armed-bandits">Reinforcement Learning: Multi-armed Bandits</h1>
+<p>Imagine yourself on a vacation at your favorite gambling destination. Unsure of where to start, you want to warm up with a slot machine. But the house has a new trick up its sleeve, it wants you to indulge simultaneously on ten machines instead of just one, and for now it has allowed you to play on them for reasonably large amount of time. Also, with each crank of the lever, each machine is ready to shell out some monetary reward. What strategy do you employ to walk away with maximum number of rewards?</p>
+<p>By now you must be getting some sense of a trade-off needed to do well at this game — something along the lines of figuring out the best slot machine by trial and error and then cranking its lever to maximize rewards. But, considering your playing time is bounded in some sense — you would want to make that determination fast. But each time you try to make that determination (explore), you may not be able to maximize rewards (exploit), and here lies the real challenge of the multi-armed bandit problem.</p>
+<p>The multi-armed bandit problem is a classical problem in reinforcement learning paradigm. A typical reinforcement learning problem uses training information to <em>evaluate</em> the action rather than <em>instruct</em> by prescribing correct action. In addition, the multi-armed bandit framework is <em>non-associative</em>, i.e. it does not involve learning in more than one situation — unlike frameworks such as Contextual Bandits, or Markov Decision Process, which are out of scope for this article.</p>
+<h2 id="algorithm">Algorithm</h2>
+<p>The action taken at each step \(t\) is represented as \(A_{t}\) results in a reward \(R_{t}\), and can be modeled as following a probability distribution with mean or expected value \(q_{*}(a)\) — also known as the <em>value</em> of the action \(a\). Since we don’t have any knowledge of inner workings of the slot machine(s), the value of any given action unknown to us — so the best we can do is to estimate it on-the-fly while we explore. Let&rsquo;s call it the <em>action value estimate</em> \(Q_{t}(a)\). Note that the it has a time subscript to denote that it is always updated as we learn more and more about the rewards for a given action. Formally, it can be defined as</p>
+<p>$$
+Q_{t}(a) \equiv \frac{\textrm{sum of rewards (\(R_{t}\)) when \(a\) taken before \(t\)}}{\textrm{number of times \(a\) taken before \(t\)}}
+$$</p>
+<p>At each step, given the action value estimate, we are faced with a choice to choose the <em>greedy</em> action that would give us the maximum rewards, or explore randomly to figure out the best action. Let’s assign a variable \(\epsilon\) to denote the probability when we explore randomly over choosing greedily. While exploring, any action among the lot is chosen with uniform probability. Formally this can be written as</p>
+<p>$$
+A_{t} = \begin{cases}
+\mathop{\operatorname{argmin}}\limits_{a} Q_{t}(a) &amp;\quad{X_{t} \sim U[0,1)} &gt; \epsilon \\
+U_{D}(1, n) &amp;\quad{\textrm{otherwise}}  \end{cases}
+$$</p>
+<p>Let’s unpack the above equation. At each step, we draw a random number \(X_{t}\) from a uniform distribution between 0 and 1. If that number is greater than \(\epsilon\), we choose to exploit greedily and consequently choose the action with maximum estimated value. Otherwise, we choose to explore and pick an action from discrete uniform random distribution between 1 to \(n\) (total number of actions)</p>
+<h2 id="implementation">Implementation</h2>
+<p>Let’s model the numerical problem of bandits using a 10-armed testbed, where each bandit’s reward process is modeled as a Gaussian distribution \(N (q_{*}(a), 1)\). The action values, in turn, are also drawn from a Gaussian distribution with mean 0 and variance 1. We can represent the testbed with the following class</p>
+<div class="columns is-centered container"><div class="column is-two-thirds"><pre><code class="code-highlight language-python">import uuid
+import numpy as np
+
+class TestBed(object):
+    def __init__(self, n, seed):
+        self.n = n # number of bandits
+        self.seed = seed # random seed
+        self.rng = np.random.default_rng(self.seed) # rewards
+        self.mu = self.rng.normal(0, 1.0, self.n) # action values means
+        self.sig = np.ones(self.n, dtype=np.float32) # action values variance
+        self.id = uuid.uuid1() # id of the testbed
+
+    # At each step, we draw the reward from a normal (Gaussian) distribution
+    # with mean and variance for the corresponding bandit
+    def get_dist(self, index, size=1):
+        return self.rng.normal(self.mu[index], self.sig[index], size=size)
+
+    # Helper function for representation
+    def __str__(self) -&gt; str:
+        return (
+            f&#34;{self.n}-armed Testbed\n&#34;
+            f&#34;Id: {self.id.hex}\n&#34;
+            f&#34;Random Seed: {self.seed}\n&#34;
+            f&#34;Max. Expected Value: {np.max(self.mu)}\n&#34;
+        )</code></pre></div>
+</div>
+<p>We can visualize the testbed with the following violin plot.</p>
+<p><img src="violin-plot.svg" alt="violin-plot"></p>
+<p>Fig.1: Representation of one instance of testbed.</p>
+<p>To simulate a multi-armed bandit experiment, we create a class <code>BanditExperiment</code> . It takes in the testbed object as an input, and performs a single run (balancing exploration and exploitation) for specified number of steps. To update the action value expectation iteratively each step, we use the following update rule.</p>
+<p>$$
+Q_{t+1} = Q_{t} + \alpha (R_{t} - Q_{t})
+$$</p>
+<p>where \(\alpha\) is the relaxation parameter or the step size. We can choose it to be a fixed value, however, it can be conclusively shown that in the standard update rule, \(\alpha = 1/t\) where t is the step. Therefore, the relaxation can itself is updated as</p>
+<p>$$
+\alpha_{t+1} = \frac{\alpha_{t}}{( \alpha_{t} + 1)}
+$$</p>
+<p>Putting it all together, our experiment class looks like</p>
+<div class="columns is-centered container"><div class="column is-two-thirds"><pre><code class="code-highlight language-python">import numpy as np
+from timeit import default_timer as timer
+
+class BanditExperiment(object):
+    def __init__(self, epsilon, testbed, alpha=None, seed=1993):
+        self.epsilon = epsilon # probability of exploration
+        self.testbed = testbed
+        self.seed = seed
+        self.expected_rewards = np.zeros_like(self.testbed.mu, dtype=np.float32) #Q_{t}(a)
+        self.rng = np.random.default_rng(self.seed)
+        # Relaxation strategy
+        if alpha:
+            self.update_alpha = False
+            self.alpha = np.ones_like(self.testbed.mu, dtype=np.float32) * alpha
+        else:
+            self.update_alpha = True
+            self.alpha = np.ones_like(self.testbed.mu, dtype=np.float32)
+
+    # Helper function to pick action A_{t}
+    def _explore_or_exploit(self):
+        if self.rng.random() &gt; self.epsilon:
+            return np.argmax(self.expected_rewards)
+        else:
+            return self.rng.integers(self.testbed.n)
+
+    # Update action values given action i is picked
+    def _update_action_value_expectation(self, i):
+        old_expected_reward = self.expected_rewards[i]
+        reward = self.testbed.get_dist(i)
+        if self.update_alpha:
+            self.alpha[i] = self.alpha[i] / (self.alpha[i] &#43; 1)
+        self.expected_rewards[i] = old_expected_reward &#43; self.alpha[i] * (
+            reward - old_expected_reward
+        )
+        return reward
+
+    # Run bandit experiment for steps, print status echo_every timesteps
+    def run(self, steps, echo_every=-1):
+        rewards = np.zeros(steps, dtype=np.float32)
+        start = timer()
+        for s in range(steps):
+            action_arg = self._explore_or_exploit()
+            rewards[s] = self._update_action_value_expectation(action_arg)
+            if echo_every &gt; 0 and ((s &#43; 1) % echo_every) == 0:
+                print(f&#34;Finished step: {s&#43;1}, elapsed time: {timer()-start}&#34;)
+        return rewards
+
+    # Helper function for representation
+    def __str__(self) -&gt; str:
+        return (
+            f&#34;Epsilon: {self.epsilon}\n&#34;
+            f&#34;Relaxation: {self.alpha}\n&#34;
+            f&#34;Random Seed: {self.seed}\n&#34;
+            f&#34;TestBed: {self.testbed.__str__()}\n&#34;
+        )</code></pre></div>
+</div>
+<p>We are now ready to launch experiments, and since all of them are independent runs, we can employ embarrassingly parallel loops.</p>
+<div class="columns is-centered container"><div class="column is-two-thirds"><pre><code class="code-highlight language-python">import numpy as np
+from joblib import Parallel, delayed
+
+# perform single run
+def do_single_run(num_bandits, steps, epsilon, alpha, seed1, seed2):
+    testbed = TestBed(num_bandits, seed1)
+    epg = BanditExperiment(epsilon, testbed, alpha, seed2)
+    return epg.run(steps), np.max(testbed.mu)
+
+# average out runs using joblib.Parallel
+def avg_runs(num_bandits, num_runs, steps, epsilon, alpha, seed, workers=1):
+    rng = np.random.default_rng(seed)
+    rewards, max_expected_reward = zip(*Parallel(n_jobs=workers)(
+        delayed(do_single_run)(
+            num_bandits, steps, epsilon, alpha, rng.integers(10000), rng.integers(10000)
+        )
+        for _ in range(num_runs)
+    ))
+    return np.mean(np.array(rewards), axis=0), np.mean(np.array(max_expected_reward), axis=0)</code></pre></div>
+</div>
+<h2 id="analysis">Analysis</h2>
+<h3 id="behavior-of-epsilon">Behavior of \(\epsilon\)</h3>
+<p>We consider three values of \(\epsilon\), 0 (greedy), 0.01, and 0.1. The number of bandits in the testbed is set to 10, number of steps is 1000, total number of independent runs is 5000. Relaxation parameter \(\alpha\) is not specified in these runs, therefore it will be updated dynamically. We also calculate the maximum expected reward (which remains unchanged with \(\epsilon\)). From the plot, we see that the greedy action saturates quickly to a lower value of expected reward because it does not explore other actions. Additionally, we see that more exploration \(\epsilon=0.1\) leads to quick jump in expected rewards but they plateau, compared to a slower exploration case \(\epsilon=0.01\) — where we see a consistent rise in expected rewards with respect to time.</p>
+<p><img src="epsilon.svg" alt="Epsilon"></p>
+<p>Fig. 2: Expected rewards variation with exploration probability</p>
+<h3 id="behavior-of-alpha">Behavior of \(\alpha\)</h3>
+<p>To study the behavior of expected rewards variation with \(\alpha\), we fix \(\epsilon=0.01\), with total number of steps as 1000 and averaging data over 5000 runs. It can be seen that the variable relaxation parameter converges faster to maximum expected reward. However, one cannot completely discount using a fixed relaxation parameter value because can be useful when the bandit rewards distribution is non-stationary (changes with time).</p>
+<p><img src="alpha.svg" alt="Alpha"></p>
+<p>Fig. 3: Expected rewards variation with relaxation parameter \(\alpha\)</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In this article, we formalized the framework and code for solving the multi-armed bandit problem, which is a special case of evaluative feedback framework. Our current problem assumes a stationary reward distribution, with a non-associative aspect. In further articles, we will tackle these problems.</p>
+
+        </section>
+      </div>
+    </div>
+  </div>  
+  </section>
+<footer class="footer footer-dark">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <img src="/footer.svg" alt="">
+        
+      </div>
+      
+    <div class="column">
+        <div class="footer-column">
+          <div class="footer-header">
+              <h3>Website</h3>
+          </div>
+          <ul class="link-list"><li></li>
+            <li><a href="/tags/">
+                <span class="icon"><i class="fa fa-tag"></i></span> 
+                All Tags
+              </a></li>
+          </ul>
+        </div>
+      </div>
+    
+      
+      <div class="column">
+        <div class="footer-column">
+          <div class="footer-header">
+              <h3>Contacts</h3>
+          </div>
+          <ul class="link-list">
+            
+            <li>
+              <a href="https://www.linkedin.com/in/ravi-bhadauria/" target="_blank">
+                <span class="icon"><i class="fab fa-linkedin"></i></span>
+                
+                  LinkedIn
+                
+              </a>
+            </li>
+            
+            
+            <li>
+              <a href="https://github.com/bhadauria-ravi" target="_blank">
+                <span class="icon"><i class="fab fa-github-square"></i></span>
+                
+                  Github
+                
+              </a>
+            </li>
+                         
+            
+                   
+                   
+            
+            
+                         
+       
+          </ul>
+        </div>
+      </div>
+      
+
+      
+      <div class="column">
+        <div class="footer-column">
+          <div class="footer-header">
+              <h3>Copyright</h3>
+          </div>
+          <ul class="link-list">
+            <li>
+              <a>
+                <span class="icon"><i class="fa fa-copyright"></i></span>
+                Ravi Bhadauria - 2022
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+
+    </div>
+  </div>
+</footer>
+    <div id="backtotop"><a href="#"></a></div><div class="sidebar scroll">
+  <div class="sidebar-header"><img src="/sidebar.svg" alt="">
+    
+    <a class="sidebar-close" href="javascript:void(0);">
+      <i data-feather="x"></i>
+    </a>
+  </div>
+  <div class="inner">
+    <ul class="sidebar-menu">
+      <li class="no-children"><a href="/tags/"><div class="columns">
+              <table width="100%">  
+                <tr>
+                  <td class="">
+                    <span class="icon"><i class="fa fa-cubes"></i></span>
+                    All Tags
+                  </td>
+                  <td class="has-text-right" >
+                      
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </a>
+      <li class="no-children">
+          <a href="/tags/bandits">
+            <div class="columns">
+              
+              <table width="100%">  
+                  <tr>
+                    <td class=""><span class="icon"><i class="fa fa-cube"></i></span>Bandits</td>
+                    <td class="has-text-right" >
+                        <div class="tag-number">1</div>
+                      
+                    </td>
+                    
+                  </tr>
+              </table>
+              
+            </div>
+          </a>
+      </li>
+      <li class="no-children">
+          <a href="/tags/reinforcement_learning">
+            <div class="columns">
+              
+              <table width="100%">  
+                  <tr>
+                    <td class=""><span class="icon"><i class="fa fa-cube"></i></span>Reinforcement_Learning</td>
+                    <td class="has-text-right" >
+                        <div class="tag-number">1</div>
+                      
+                    </td>
+                    
+                  </tr>
+              </table>
+              
+            </div>
+          </a>
+      </li></ul>
+  </div>
+</div>
+<script src="/js/jquery-2.2.4.js"></script>
+  <script src="/js/feather.4.22.0.js"></script>
+  <script src="/js/modernizr-3.6.0.js"></script>
+  <script src="/js/refresh.js"></script><script>
+  window.MathJax = {
+    loader: {
+      load: ['core', 'input/tex-base', 'output/chtml'],  
+      source: {
+        'core': '\/js\/mathjax\/core.js',
+        'input/tex-base': '\/js\/mathjax\/tex-base.js',
+        'output/chtml': '\/js\/mathjax\/chtml.js',
+        'output/chtml/fonts/tex': '\/js\/mathjax\/tex_out.js'
+      },
+    },
+    chtml: {
+      fontURL: '/fonts' 
+    },
+  };
+</script><script src="/js/mathjax/startup.js"></script>
+  <script src="/js/highlight.9.18.1.js"></script>
+  <script src="/js/highlightjs-line-numbers.2.7.0.min.js"></script><script>
+  hljs.initHighlightingOnLoad();
+  hljs.initLineNumbersOnLoad();
+  document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('.codeinline').forEach((block) => {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+</body>
+</html>
